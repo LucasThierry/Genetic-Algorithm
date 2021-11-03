@@ -31,6 +31,7 @@ import sys
 import time
 from func_timeout import func_timeout, FunctionTimedOut
 import matplotlib.pyplot as plt
+from collections import deque
 
 ###############################################################################
 ###############################################################################
@@ -466,8 +467,9 @@ class geneticalgorithm():
         
         def cross_fill(parent1, parent2, ran):
             ofs1_aux = parent1
-            ofs2_aux = parent2[::-1]
-            for i in range(ran+1,self.dim-1):
+            ofs2_aux = parent2
+            ofs2_aux = np.roll(ofs2_aux, self.dim-ran) # Moves parent 2 second part forward for the crossfill logic
+            for i in range(ran+1,self.dim):
                 aux_counter = 0
                 while aux_counter < self.dim-1 and ofs2_aux[aux_counter] in ofs1_aux[:i-1]:
                     aux_counter+=1
